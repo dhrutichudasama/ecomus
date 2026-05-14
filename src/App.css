@@ -1,0 +1,14 @@
+/* Reset and Base Styles */
+:root {
+  --header-height: 80px;
+}
+
+body {
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  width: 100%;
+}
