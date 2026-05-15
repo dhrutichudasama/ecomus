@@ -102,7 +102,7 @@ const ProductCard = ({ product, isWishlist = false }) => {
       {/* Product Info */}
       <div className="mt-5 text-center">
         {/* Rating */}
-        <div className="flex justify-center gap-0.5 mb-2">
+        <div className="flex justify-start gap-0.5 mb-2">
           {[...Array(5)].map((_, i) => (
             <Star 
               key={i} 
@@ -110,12 +110,12 @@ const ProductCard = ({ product, isWishlist = false }) => {
             />
           ))}
         </div>
-        <Link to={`/product/${product.id}`} className="block">
-          <h3 className="text-lg font-medium text-gray-900 group-hover:text-blue-600 transition-colors cursor-pointer">
+        <Link to={`/product/${product.id}`} className="block flex justify-start">
+          <h3 className="text-lg text-gray-900 group-hover:text-blue-600 transition-colors cursor-pointer">
             {product.name}
           </h3>
         </Link>
-        <p className="text-gray-600 font-bold mt-1">${typeof product.price === 'number' ? product.price.toFixed(2) : product.price}</p>
+        <p className="text-gray-600 font-bold mt-1 text-start">${typeof product.price === 'number' ? product.price.toFixed(2) : product.price}</p>
       </div>
     </div>
   );

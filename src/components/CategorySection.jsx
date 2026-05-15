@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 // Import images
 import cat1 from "../assets/cat1.jpg";
@@ -32,13 +33,13 @@ const CategorySection = () => {
     <section className="py-20 px-6 max-w-[1400px] mx-auto overflow-hidden">
       <div className="flex flex-col md:flex-row items-end mb-6 gap-4">
         <div className="flex gap-3">
-          <button 
+          <button
             onClick={() => scroll("left")}
             className="p-1.5 rounded-full border border-gray-200 hover:bg-black hover:text-white transition-all duration-300"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
-          <button 
+          <button
             onClick={() => scroll("right")}
             className="p-1.5 rounded-full border border-gray-200 hover:bg-black hover:text-white transition-all duration-300"
           >
@@ -52,20 +53,20 @@ const CategorySection = () => {
 
       <div className="relative flex gap-6">
         {/* Left Side: Scrollable Categories */}
-        <div 
+        <div
           ref={scrollRef}
           className="flex-1 flex gap-4 md:gap-6 overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth py-2"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {categories.map((category) => (
-            <div 
+            <div
               key={category.id}
               className="flex-none w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] snap-start group"
             >
               <div className="relative aspect-[4/5] overflow-hidden rounded-lg cursor-pointer">
-                <img 
-                  src={category.image} 
-                  alt={category.name} 
+                <img
+                  src={category.image}
+                  alt={category.name}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 {/* Overlay Text */}
@@ -85,22 +86,33 @@ const CategorySection = () => {
         {/* Right Side: Fixed Card */}
         <div className="hidden md:flex flex-none md:w-[calc(50%-12px)] lg:w-[calc(25%-18px)]">
           <div className="w-full aspect-[4/5] bg-white border border-gray-100 shadow-xl rounded-2xl flex flex-col items-center justify-center text-center p-6 md:p-8 group hover:border-black transition-all duration-500">
-            <div className="mb-4 md:mb-6 p-4 rounded-full bg-gray-50 group-hover:bg-black group-hover:text-white transition-all duration-500">
-              <ArrowRight className="w-6 h-6 md:w-8 md:h-8" />
-            </div>
+
+            {/* Arrow Icon Click */}
+            <Link to="/shop">
+              <div className="mb-4 md:mb-6 p-4 rounded-full bg-gray-50 group-hover:bg-black group-hover:text-white transition-all duration-500 cursor-pointer">
+                <ArrowRight className="w-6 h-6 md:w-8 md:h-8" />
+              </div>
+            </Link>
+
             <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-4">
               Discover all <br /> new items
             </h3>
+
             <p className="text-gray-400 text-xs md:text-sm mb-6 md:mb-8 px-4">
               Explore our latest collection and find your perfect style.
             </p>
-            <motion.button 
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-6 md:px-8 py-2 md:py-3 bg-black text-white rounded-full text-xs md:text-sm font-bold hover:bg-gray-800 transition-colors"
-            >
-              View All
-            </motion.button>
+
+            {/* Button Click */}
+            <Link to="/shop">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-6 md:px-8 py-2 md:py-3 bg-black text-white rounded-full text-xs md:text-sm font-bold hover:bg-gray-800 transition-colors"
+              >
+                View All
+              </motion.button>
+            </Link>
+
           </div>
         </div>
       </div>

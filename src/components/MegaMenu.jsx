@@ -17,7 +17,7 @@ import home10 from '../assets/home-10.jpg';
 import shopMenu1 from '../assets/shop-menu-1.jpg';
 import shopMenu2 from '../assets/shop-menu-2.jpg';
 
-import productMenu1 from '../assets/products-menu-1.jpg';
+import productMenu1 from '../assets/product1.jpg';
 import productMenu2 from '../assets/products-menu-2.jpg';
 
 const HomeMegaMenu = () => {
@@ -159,7 +159,7 @@ const ProductMegaMenu = () => {
     );
 };
 
-const MegaMenu = ({ type, isOpen, onClose, top }) => {
+const MegaMenu = ({ type, isOpen, onClose, top, onMouseEnter, onMouseLeave }) => {
     if (!isOpen) return null;
 
     const renderContent = () => {
@@ -183,7 +183,8 @@ const MegaMenu = ({ type, isOpen, onClose, top }) => {
             transition={{ duration: 0.3, ease: 'easeOut' }}
             className="fixed left-0 w-screen h-screen bg-white z-[90] overflow-y-auto shadow-2xl flex flex-col"
             style={{ top: top || '80px' }}
-            onMouseLeave={onClose}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
         >
             <div className="flex-grow w-full bg-white flex items-start justify-center pt-10 pb-20">
                 {renderContent()}

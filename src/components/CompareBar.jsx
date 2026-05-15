@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, RefreshCw, ChevronRight } from 'lucide-react';
+import { X, RefreshCw, ChevronRight, Plus } from 'lucide-react';
 import { useCompare } from '../context/CompareContext';
 
 const CompareBar = () => {

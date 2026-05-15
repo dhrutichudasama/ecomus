@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+import { ArrowRight, ChevronLeft, ChevronRight, MoveUpRight } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
+import { motion } from "framer-motion";
+
 import {
   ShoppingBag,
   Heart,
@@ -43,7 +46,7 @@ const Blog = () => {
         </p>
       </div>
 
-      {/* Product Grid */}
+      {/* blog Grid */}
       <div className="max-w-[1400px] mx-auto px-6 pb-16">
         <div
           className={`grid gap-8
@@ -57,16 +60,21 @@ const Blog = () => {
 
               <Link
                 to={`/blog/${product.id}`}
-                className="block relative aspect-[6/4]  overflow-hidden rounded-2xl bg-gray-100"
+                className="block relative aspect-[6/4] overflow-hidden rounded-lg bg-gray-100"
               >
-                <div className="relative w-full h-[300px] transition-transform duration-700 group-hover:scale-110">
-
+                {/* Image wrapper (zoom effect) */}
+                <div className="w-full h-[300px] transition-transform duration-700 group-hover:scale-110">
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-[300px] object-cover transition-opacity duration-300"
+                    className="w-full h-[300px] object-cover"
                   />
                 </div>
+
+                {/* 🔥 Accessories Button (fixed position) */}
+                <button className="absolute bottom-3 left-3 bg-white text-black text-xs font-medium px-3 py-1 shadow hover:bg-black hover:text-white transition-all duration-300 z-10">
+                  Accessories
+                </button>
               </Link>
 
               {/* Info */}
@@ -74,11 +82,17 @@ const Blog = () => {
                 <h3 className="text-[20px] text-left text-gray-900">
                   {product.name}
                 </h3>
-
-                <p className="text-gray-900 font-bold mt-1">
-                  {product.price}
-                </p>
               </div>
+
+              {/* <Link to="/shop"> */}
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className=" py-2 md:py-2 flex gap-1 border-b border-b-black bg-transparent text-black text-xs font-semibold md:text-sm hover:text:red-600 transition-colors"
+                >
+                  Read More<MoveUpRight className="w-4 h-4 mt-0.5" />
+                </motion.button>
+              {/* </Link> */}
             </div>
           ))}
         </div>

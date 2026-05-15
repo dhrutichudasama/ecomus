@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
     Search,
@@ -23,6 +23,7 @@ import MegaMenu from "./MegaMenu";
 
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
+import { useModal } from "../context/ModalContext";
 
 const menuItems = [
     { name: "Home", hasDropdown: true, path: "/" },
@@ -73,6 +74,7 @@ const dropdownData = {
 const Header = ({ currentSlide }) => {
     const { cartCount, setIsCartOpen } = useCart();
     const { wishlistCount } = useWishlist();
+    const { openSearch, openAuth } = useModal();
     const [showHeader, setShowHeader] = useState(true);
     const [isScrolled, setIsScrolled] = useState(false);
     const [lastScrollY, setLastScrollY] = useState(0);
@@ -82,6 +84,7 @@ const Header = ({ currentSlide }) => {
     const [languageOpen, setLanguageOpen] = useState(false);
 
     const [subMenu, setSubMenu] = useState(null);
+    const timeoutRef = useRef(null);
 
     const location = useLocation();
     const isHomepage = location.pathname === "/";
@@ -161,7 +164,7 @@ const Header = ({ currentSlide }) => {
                 </div>
             </div>
 
-            <header className={`py-4 transition-all duration-300 transform ${headerBgClass} ${headerVisibilityClass} relative z-[100]`}>
+            <header className={`py-4 transition-all duration-300 transform ${headerBgClass} ${headerVisibilityClass} relative z-[100] hidden min-[900px]:block`}>
                 <div className="max-w-[1400px] mx-auto px-6 flex items-center justify-between">
                     <div className="flex-shrink-0">
                         <Link to="/">
@@ -174,11 +177,14 @@ const Header = ({ currentSlide }) => {
                             <div
                                 key={item.name}
                                 className="relative group"
-                                onMouseEnter={() => setHoveredItem(item.name)}
+                                onMouseEnter={() => {
+                                    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+                                    setHoveredItem(item.name);
+                                }}
                                 onMouseLeave={() => {
-                                    setTimeout(() => {
+                                    timeoutRef.current = setTimeout(() => {
                                         setHoveredItem(null);
-                                    }, 150);
+                                    }, 200);
                                 }}
                             >
                                 <Link
@@ -197,9 +203,10 @@ const Header = ({ currentSlide }) => {
                                             initial={{ opacity: 0, y: 10 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             exit={{ opacity: 0, y: 10 }}
-                                            className={`absolute top-full left-0 mt-2 ${item.name === "Pages" ? "w-64" : "w-48"
-                                                } bg-white border border-gray-100 shadow-xl rounded-lg py-3 z-50 overflow-visible`}
+                                            className={`absolute top-full left-0 pt-2 ${item.name === "Pages" ? "w-64" : "w-48"
+                                                } z-50 overflow-visible`}
                                         >
+                                            <div className="bg-white border border-gray-100 shadow-xl rounded-lg py-3">
                                             <div className="flex flex-col relative">
                                                 {dropdownData[item.name]?.map((menu, index) => (
                                                     <div
@@ -229,6 +236,7 @@ const Header = ({ currentSlide }) => {
                                                     </div>
                                                 ))}
                                             </div>
+                                            </div>
                                         </motion.div>
                                     )}
                                 </AnimatePresence>
@@ -237,8 +245,18 @@ const Header = ({ currentSlide }) => {
                     </nav>
 
                     <div className="flex items-center gap-5">
-                        <button className="text-gray-800 hover:text-black hover:scale-110 transition-all duration-200"><Search className="w-5 h-5" /></button>
-                        <button className="text-gray-800 hover:text-black hover:scale-110 transition-all duration-200 hidden md:block"><User className="w-5 h-5" /></button>
+                        <button 
+                            onClick={openSearch}
+                            className="text-gray-800 hover:text-black hover:scale-110 transition-all duration-200"
+                        >
+                            <Search className="w-5 h-5" />
+                        </button>
+                        <button 
+                            onClick={openAuth}
+                            className="text-gray-800 hover:text-black hover:scale-110 transition-all duration-200 hidden md:block"
+                        >
+                            <User className="w-5 h-5" />
+                        </button>
                         <Link to="/wishlist" className="text-gray-800 hover:text-black hover:scale-110 transition-all duration-200 relative">
                             <Heart className={`w-5 h-5 ${wishlistCount > 0 ? "fill-black" : ""}`} />
                             {wishlistCount > 0 && (
@@ -276,6 +294,14 @@ const Header = ({ currentSlide }) => {
                         <MegaMenu
                             type={hoveredItem}
                             isOpen={true}
+                            onMouseEnter={() => {
+                                if (timeoutRef.current) clearTimeout(timeoutRef.current);
+                            }}
+                            onMouseLeave={() => {
+                                timeoutRef.current = setTimeout(() => {
+                                    setHoveredItem(null);
+                                }, 200);
+                            }}
                             onClose={() => setHoveredItem(null)}
                             top={isScrolled ? "64px" : "104px"}
                         />
