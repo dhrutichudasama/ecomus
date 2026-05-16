@@ -12,78 +12,94 @@ import {
     Search,
     User,
     Heart,
-    ChevronRight
+    ChevronRight,
+    ChevronDown,
+    Globe,
+    DollarSign,
+    Facebook,
+    Instagram,
+    Twitter,
+    Linkedin,
+    Youtube
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import { useModal } from "../context/ModalContext";
 import { useCart } from "../context/CartContext";
+import { useWishlist } from "../context/WishlistContext";
 
 const menuItems = [
-    { name: "Home", icon: <Home size={20} />, path: "/" },
+    { 
+        name: "Home", 
+        path: "/",
+        dropdown: [
+            { name: "Home Fashion 01", path: "/" },
+            { name: "Home Multi Brand", path: "/" },
+            { name: "Home Fashion 03", path: "/" },
+            { name: "Home Fashion 04", path: "/" },
+            { name: "Home Ceramic", path: "/" },
+        ]
+    },
     {
         name: "Shop",
-        icon: <ShoppingBag size={20} />,
+        path: "/shop",
         dropdown: [
             { name: "All Collections", path: "/shop" },
-            { name: "Best Sellers", path: "/shop" },
+            { name: "Shop Layouts", path: "/shop" },
+            { name: "Filter Sidebar", path: "/shop" },
+            { name: "Collections List", path: "/shop" },
             { name: "New Arrivals", path: "/shop" },
-            { name: "Trending", path: "/shop" }
+            { name: "Trending Now", path: "/shop" }
         ]
     },
     {
         name: "Products",
-        icon: <Package size={20} />,
+        path: "/product",
         dropdown: [
-            { name: "Electronics", path: "/product" },
-            { name: "Fashion", path: "/product" },
-            { name: "Accessories", path: "/product" },
-            { name: "Home Decor", path: "/product" }
+            { name: "Simple Product", path: "/product" },
+            { name: "Variable Product", path: "/product" },
+            { name: "Product Layouts", path: "/product" },
+            { name: "Product Elements", path: "/product" },
+            { name: "Product Reviews", path: "/product" }
         ]
     },
     {
         name: "Pages",
-        icon: <Package size={20} />,
         dropdown: [
-            { name: "About us", path: "/product" },
+            { name: "About us", path: "/about-us" },
             { name: "Brands", path: "/product" },
-            { name: "Contact 1", path: "/product" },
-            { name: "FAQ 01", path: "/product" },
+            { name: "Contact", path: "/contact" },
+            { name: "FAQ", path: "/product" },
             { name: "Our store", path: "/product" },
-            { name: "Store locator", path: "/product" },
-            { name: "View cart", path: "/product" },
-            { name: "Check out", path: "/product" }
+            { name: "View cart", path: "/cart" },
+            { name: "Check out", path: "/order-success" }
         ]
     },
     {
         name: "Blog",
-        icon: <Package size={20} />,
+        path: "/blog",
         dropdown: [
-            { name: "Grid layout", path: "/product" },
-            { name: "Left sidebar", path: "/product" },
-            { name: "Right sidebar", path: "/product" },
-            { name: "Blog list", path: "/product" }
+            { name: "Grid layout", path: "/blog" },
+            { name: "Left sidebar", path: "/blog" },
+            { name: "Right sidebar", path: "/blog" },
+            { name: "Blog list", path: "/blog" },
+            { name: "Single Post", path: "/blog" }
         ]
     },
-    { name: "Buy Now", icon: <Phone size={20} />, path: "/contact" },
+    { name: "Buy Now", path: "/contact" },
 ];
 
-/**
- * MobileSidebar Component
- * Handles the mobile-specific header behavior (< 900px) and the slide-in sidebar.
- */
 const MobileSidebar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [openDropdowns, setOpenDropdowns] = useState({});
-    const [activeItem, setActiveItem] = useState("Home");
+    const location = useLocation();
     const { openSearch, openAuth } = useModal();
-    const { setIsCartOpen } = useCart();
+    const { setIsCartOpen, cartCount } = useCart();
+    const { wishlistCount } = useWishlist();
 
-    // Toggle Sidebar
     const toggleSidebar = () => setIsOpen(!isOpen);
 
-    // Toggle Individual Dropdowns
     const toggleDropdown = (name) => {
         setOpenDropdowns(prev => ({
             ...prev,
@@ -91,7 +107,6 @@ const MobileSidebar = () => {
         }));
     };
 
-    // Prevent body scroll when sidebar is open
     useEffect(() => {
         if (isOpen) {
             document.body.style.overflow = "hidden";
@@ -103,7 +118,6 @@ const MobileSidebar = () => {
         };
     }, [isOpen]);
 
-    // Handle screen resize to close sidebar if width > 900px
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth >= 900) {
@@ -114,42 +128,46 @@ const MobileSidebar = () => {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
+    // Close sidebar on route change
+    useEffect(() => {
+        setIsOpen(false);
+    }, [location.pathname]);
+
     return (
         <div className="relative">
-            {/* 📱 MOBILE HEADER BAR - Visible only below 900px */}
-            <div className="fixed top-0 left-0 w-full h-16 bg-white border-b border-gray-100 flex items-center justify-between px-5 z-[100] transition-all duration-300 min-[900px]:hidden">
-                {/* Hamburger Menu Icon (Left) */}
+            {/* 📱 MOBILE HEADER BAR */}
+            <div className="fixed top-0 left-0 w-full h-16 bg-white border-b border-gray-100 flex items-center justify-between px-5 z-[100] min-[900px]:hidden">
                 <button
                     onClick={toggleSidebar}
-                    className="p-2 -ml-2 text-gray-800 hover:bg-gray-100 rounded-full transition-colors active:scale-90"
+                    className="p-2 -ml-2 text-gray-800 hover:bg-gray-100 rounded-full transition-all active:scale-90"
                     aria-label="Open Menu"
-                    id="mobile-hamburger"
                 >
-                    <Menu size={26} />
+                    <Menu size={24} />
                 </button>
 
-                {/* Logo (Center) */}
                 <div className="absolute left-1/2 -translate-x-1/2">
-                    <img src={logo} alt="Ecomus Logo" className="h-6 w-auto" />
+                    <Link to="/">
+                        <img src={logo} alt="Ecomus Logo" className="h-5 w-auto" />
+                    </Link>
                 </div>
 
-                {/* Right Icons */}
                 <div className="flex items-center gap-1">
-                    <button 
-                        onClick={() => {
-                            toggleSidebar();
-                            openSearch();
-                        }}
+                    <button
+                        onClick={openSearch}
                         className="p-2 text-gray-700 hover:text-black transition-colors"
                     >
                         <Search size={22} />
                     </button>
-                    <button 
+                    <button
                         onClick={() => setIsCartOpen(true)}
                         className="p-2 text-gray-700 hover:text-black transition-colors relative"
                     >
                         <ShoppingBag size={22} />
-                        <span className="absolute top-1 right-1 w-4 h-4 bg-black text-white text-[10px] flex items-center justify-center rounded-full">0</span>
+                        {cartCount > 0 && (
+                            <span className="absolute top-1 right-1 w-4 h-4 bg-black text-white text-[10px] flex items-center justify-center rounded-full">
+                                {cartCount}
+                            </span>
+                        )}
                     </button>
                 </div>
             </div>
@@ -158,157 +176,145 @@ const MobileSidebar = () => {
             <AnimatePresence>
                 {isOpen && (
                     <>
-                        {/* Dark Overlay */}
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             onClick={toggleSidebar}
-                            className="fixed inset-0 bg-black/60 z-[200]"
+                            className="fixed inset-0 bg-black/60 z-[200] backdrop-blur-sm"
                         />
 
-                        {/* Slide-in Sidebar */}
                         <motion.div
                             initial={{ x: "-100%" }}
                             animate={{ x: 0 }}
                             exit={{ x: "-100%" }}
-                            transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                            className="fixed top-0 left-0 h-full w-[280px] sm:w-[320px] bg-white z-[201] shadow-2xl flex flex-col"
+                            transition={{ type: "spring", damping: 30, stiffness: 300 }}
+                            className="fixed top-0 left-0 h-full w-[300px] sm:w-[360px] bg-white z-[201] shadow-2xl flex flex-col"
                         >
-                            {/* Sidebar Header with Close Icon */}
-                            <div className="flex items-center justify-between p-5 border-b border-gray-50">
+                            {/* Sidebar Header */}
+                            <div className="flex items-center justify-between p-6 border-b border-gray-50">
                                 <img src={logo} alt="Ecomus Logo" className="h-5 w-auto" />
                                 <button
                                     onClick={toggleSidebar}
                                     className="p-2 -mr-2 text-gray-400 hover:text-black hover:bg-gray-100 rounded-full transition-all"
-                                    aria-label="Close Sidebar"
-                                    id="close-sidebar"
                                 >
                                     <X size={24} />
                                 </button>
                             </div>
 
-                            {/* Menu Items List */}
+                            {/* Menu Content */}
                             <div className="flex-1 overflow-y-auto no-scrollbar py-6">
-                                <nav className="px-3">
+                                <nav className="px-4">
                                     <ul className="space-y-1">
                                         {menuItems.map((item) => (
-                                            <li key={item.name} className="group">
-                                                <div className="flex items-center justify-between">
+                                            <li key={item.name} className="border-b border-gray-50 last:border-0">
+                                                <div className="flex items-center justify-between py-1">
                                                     <Link
                                                         to={item.path || "#"}
-                                                        onClick={(e) => {
-                                                            if (!item.path) e.preventDefault();
-                                                            setActiveItem(item.name);
-                                                            if (item.path) toggleSidebar();
-                                                        }}
-                                                        className={`flex-1 flex items-center gap-4 px-4 py-3.5 transition-all duration-200 ${activeItem === item.name
-                                                                ? "bg-white text-black shadow-black/10"
-                                                                : "text-gray-700 hover:bg-gray-100"
-                                                            }`}
+                                                        className={`flex-1 text-[15px] font-semibold py-3 transition-colors ${
+                                                            location.pathname === item.path ? "text-red-600" : "text-gray-900"
+                                                        }`}
                                                     >
-
-                                                        <span className="text-[15px] font-semibold">{item.name}</span>
+                                                        {item.name}
                                                     </Link>
 
                                                     {item.dropdown && (
                                                         <button
                                                             onClick={() => toggleDropdown(item.name)}
-                                                            className={`p-3 mr-1 rounded-lg transition-all ${openDropdowns[item.name]
-                                                                    ? "bg-white-100 text-black rotate-0"
-                                                                    : "text-gray-400 hover:text-black"
-                                                                }`}
+                                                            className={`p-3 transition-transform duration-300 ${
+                                                                openDropdowns[item.name] ? "rotate-180" : ""
+                                                            }`}
                                                         >
-                                                            {openDropdowns[item.name] ? <Minus size={18} strokeWidth={3} /> : <Plus size={18} strokeWidth={3} />}
+                                                            <ChevronDown size={18} className="text-gray-400" />
                                                         </button>
                                                     )}
                                                 </div>
 
-                                                {/* 🔽 Dropdown Content (Accordion style) */}
                                                 <AnimatePresence>
                                                     {item.dropdown && openDropdowns[item.name] && (
                                                         <motion.div
                                                             initial={{ height: 0, opacity: 0 }}
                                                             animate={{ height: "auto", opacity: 1 }}
                                                             exit={{ height: 0, opacity: 0 }}
-                                                            transition={{ duration: 0.3, ease: "circOut" }}
-                                                            className="overflow-hidden"
+                                                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                                                            className="overflow-hidden bg-gray-50/50 rounded-lg mb-2"
                                                         >
-                                                            <ul className="mt-1 ml-10 border-l-2 border-gray-100">
+                                                            <ul className="py-2">
                                                                 {item.dropdown.map((subItem, idx) => (
                                                                     <li key={subItem.name}>
-                                                                        <motion.Link
-                                                                            initial={{ x: -10, opacity: 0 }}
-                                                                            animate={{ x: 0, opacity: 1 }}
-                                                                            transition={{ delay: idx * 0.05 }}
+                                                                        <Link
                                                                             to={subItem.path}
-                                                                            onClick={toggleSidebar}
-                                                                            className="block px-6 py-2.5 text-[14px] text-gray-500 hover:text-black hover:translate-x-1 transition-all"
+                                                                            className="block px-6 py-2.5 text-[14px] text-gray-600 hover:text-black hover:translate-x-1 transition-all"
                                                                         >
                                                                             {subItem.name}
-                                                                        </motion.Link>
+                                                                        </Link>
                                                                     </li>
                                                                 ))}
                                                             </ul>
                                                         </motion.div>
                                                     )}
                                                 </AnimatePresence>
-
                                             </li>
                                         ))}
                                     </ul>
-                                    <div className="sidebar-buttons flex gap-3">
-                                        <button className="flex items-center justify-center gap-3 w-[100px] py-2 px-1 bg-gray-200 text-black hover:bg-gray-800 hover:text-white transition-all active:scale-95">
-                                            <Heart size={18} />
-                                            Whishlist
-                                        </button>
-                                        <button 
-                                            onClick={() => {
-                                                toggleSidebar();
-                                                openAuth();
-                                            }}
-                                            className="flex items-center justify-center gap-3 w-full py-2 bg-gray-200 text-black hover:bg-gray-800 hover:text-white transition-all active:scale-95"
+
+                                    {/* Action Buttons */}
+                                    <div className="mt-8 grid grid-cols-2 gap-3">
+                                        <Link 
+                                            to="/wishlist"
+                                            className="flex items-center justify-center gap-2 py-3 bg-gray-50 text-gray-900 rounded-lg font-medium hover:bg-gray-100 transition-all relative"
                                         >
-                                            <User size={18} />
-                                            Login
+                                            <Heart size={18} />
+                                            <span>Wishlist</span>
+                                            {wishlistCount > 0 && (
+                                                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full border-2 border-white">
+                                                    {wishlistCount}
+                                                </span>
+                                            )}
+                                        </Link>
+                                        <button 
+                                            onClick={openSearch}
+                                            className="flex items-center justify-center gap-2 py-3 bg-gray-50 text-gray-900 rounded-lg font-medium hover:bg-gray-100 transition-all"
+                                        >
+                                            <Search size={18} />
+                                            <span>Search</span>
                                         </button>
                                     </div>
-                                    {/* <p>
-                                            Need help ?
-                                            Address: 1234 Fashion Street, Suite 567,
-                                            New York, NY 10001
-                                            Email: info@fashionshop.com
-                                            Phone: (212) 555-1234
-                                        </p> */}
-
                                 </nav>
                             </div>
 
-                            {/* Sidebar Bottom Actions */}
+                            {/* Sidebar Footer */}
                             <div className="p-6 bg-gray-50 border-t border-gray-100">
-                                <div className="space-y-4">
-                                    <button 
-                                        onClick={() => {
-                                            toggleSidebar();
-                                            openAuth();
-                                        }}
-                                        className="flex items-center justify-center gap-3 w-full py-2 bg-black text-white font-bold hover:bg-gray-800 transition-all active:scale-95"
+                                <div className="space-y-6">
+                                    <button
+                                        onClick={openAuth}
+                                        className="flex items-center justify-center gap-3 w-full py-3.5 bg-black text-white rounded-xl font-bold hover:bg-gray-800 transition-all active:scale-[0.98] shadow-lg shadow-black/10"
                                     >
                                         <User size={18} />
-                                        Login
+                                        Login / Register
                                     </button>
 
-                                    <div className="flex items-center justify-center gap-8 py-2 text-gray-400">
-                                        <button className="hover:text-red-500 transition-colors">
-                                            <Heart size={22} />
+                                    {/* Selectors */}
+                                    <div className="flex items-center justify-between px-2">
+                                        <button className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-black">
+                                            <Globe size={16} />
+                                            <span>English</span>
+                                            <ChevronDown size={14} />
                                         </button>
-                                        <button className="hover:text-black transition-colors">
-                                            <Phone size={22} />
+                                        <button className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-black">
+                                            <DollarSign size={16} />
+                                            <span>USD</span>
+                                            <ChevronDown size={14} />
                                         </button>
-                                        <div className="w-px h-6 bg-gray-200"></div>
-                                        <div className="flex items-center gap-2 text-xs font-bold text-gray-500 uppercase tracking-widest">
-                                            Follow Us
-                                        </div>
+                                    </div>
+
+                                    {/* Socials */}
+                                    <div className="flex items-center justify-center gap-6 pt-2">
+                                        {[Facebook, Instagram, Twitter, Linkedin, Youtube].map((Icon, i) => (
+                                            <a key={i} href="#" className="text-gray-400 hover:text-black transition-colors">
+                                                <Icon size={20} />
+                                            </a>
+                                        ))}
                                     </div>
                                 </div>
                             </div>

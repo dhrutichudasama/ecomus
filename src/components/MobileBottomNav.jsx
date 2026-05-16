@@ -5,7 +5,7 @@ import { useCart } from "../context/CartContext";
 import { useModal } from "../context/ModalContext";
 
 const MobileBottomNav = () => {
-  const { cartItems } = useCart();
+  const { cartItems, setIsCartOpen } = useCart();
   const { openSearch, openAuth } = useModal();
 
   return (
@@ -43,7 +43,10 @@ const MobileBottomNav = () => {
         </button>
 
         {/* Cart */}
-        <div className="relative flex flex-col items-center text-xs text-gray-600 cursor-pointer">
+        <div 
+          onClick={() => setIsCartOpen(true)}
+          className="relative flex flex-col items-center text-xs text-gray-600 cursor-pointer"
+        >
           <ShoppingCart size={20} />
           <span>Cart</span>
 

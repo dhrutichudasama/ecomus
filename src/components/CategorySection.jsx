@@ -63,22 +63,24 @@ const CategorySection = () => {
               key={category.id}
               className="flex-none w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] snap-start group"
             >
-              <div className="relative aspect-[4/5] overflow-hidden rounded-lg cursor-pointer">
-                <img
-                  src={category.image}
-                  alt={category.name}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                {/* Overlay Text */}
-                <div className="absolute inset-0 bg-black/10 group-hover:bg-black/30 transition-all duration-300 flex items-end p-6 md:p-8">
-                  <div className="text-white">
-                    <h3 className="text-xl md:text-2xl font-bold mb-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                      {category.name}
-                    </h3>
-                    <div className="h-0.5 w-0 group-hover:w-full bg-white transition-all duration-500"></div>
+              <Link to="/shop">
+                <div className="relative aspect-[4/5] overflow-hidden rounded-lg cursor-pointer">
+                  <img
+                    src={category.image}
+                    alt={category.name}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  {/* Overlay Text */}
+                  <div className="absolute inset-0 bg-black/10 group-hover:bg-black/30 transition-all duration-300 flex items-end p-6 md:p-8">
+                    <div className="text-white">
+                      <h3 className="text-xl md:text-2xl font-bold mb-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        {category.name}
+                      </h3>
+                      <div className="h-0.5 w-0 group-hover:w-full bg-white transition-all duration-500"></div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             </div>
           ))}
         </div>

@@ -13,6 +13,10 @@ import ProductDetail from './components/ProductDetail'
 import CollectionSection from './components/CollectionSection';
 import Blog from './components/Blog';
 import Wishlist from './components/Wishlist';
+import CartPage from './components/CartPage';
+import OrderSuccess from './components/OrderSuccess';
+import AboutUs from './components/AboutUs';
+import Contact from './components/Contact';
 import CartDrawer from './components/CartDrawer';
 import { CartProvider } from './context/CartContext';
 import { WishlistProvider } from './context/WishlistContext';
@@ -63,6 +67,10 @@ function App() {
                       <Route path="/shop" element={<CollectionSection />} />
                       <Route path="/blog" element={<Blog />} />
                       <Route path="/wishlist" element={<Wishlist />} />
+                      <Route path="/cart" element={<CartPage />} />
+                      <Route path="/order-success" element={<OrderSuccess />} />
+                      <Route path="/about-us" element={<AboutUs />} />
+                      <Route path="/contact" element={<Contact />} />
                     </Routes>
                   </main>
                   <MobileBottomNav />

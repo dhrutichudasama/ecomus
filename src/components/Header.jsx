@@ -36,14 +36,14 @@ const menuItems = [
 
 const dropdownData = {
     Pages: [
-        { name: "About us" },
+        { name: "About us", path: "/about-us" },
         {
             name: "Brands",
             children: ["Brand 1", "Brand 2"]
         },
         {
             name: "Contact",
-            children: ["Contact 1", "Contact 2"]
+            path: "/contact"
         },
         {
             name: "FAQ",
@@ -55,8 +55,8 @@ const dropdownData = {
         },
         { name: "Timeline" },
         { name: "New" },
-        { name: "View cart" },
-        { name: "Check out" },
+        { name: "View cart", path: "/cart" },
+        { name: "Check out", path: "/order-success" },
         { name: "Payment" },
         { name: "My account" },
         { name: "Invoice" }
@@ -215,10 +215,16 @@ const Header = ({ currentSlide }) => {
                                                         onMouseEnter={() => setSubMenu(menu.name)}
                                                         onMouseLeave={() => setSubMenu(null)}
                                                     >
-                                                        <div className="flex items-center justify-between px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-black cursor-pointer">
-                                                            {menu.name}
-                                                            {menu.children && <span>›</span>}
-                                                        </div>
+                                                        {menu.path ? (
+                                                            <Link to={menu.path} className="flex items-center justify-between px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-black cursor-pointer">
+                                                                {menu.name}
+                                                            </Link>
+                                                        ) : (
+                                                            <div className="flex items-center justify-between px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-black cursor-pointer">
+                                                                {menu.name}
+                                                                {menu.children && <span>›</span>}
+                                                            </div>
+                                                        )}
 
                                                         {/* Submenu */}
                                                         {menu.children && subMenu === menu.name && (

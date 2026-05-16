@@ -33,71 +33,63 @@ const products = [
 ];
 
 const Blog = () => {
-  const [columns, setColumns] = useState(3); // default 4 columns
-
   return (
-    <div className="pt-[120px] bg-white min-h-screen">
+    <div className="pt-[100px] md:pt-[120px] bg-white min-h-screen">
 
       {/* Page Title */}
-      <div className="max-w-[1400px] mx-auto px-10 py-18 mb-10 bg-pink-50 text-center">
-        <h1 className="text-3xl md:text-4xl ">Our Blog</h1>
-        <p className="text-gray-500 mt-2">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-10 py-12 md:py-18 mb-10 bg-pink-50 text-center">
+        <h1 className="text-3xl md:text-5xl font-medium">Our Blog</h1>
+        <p className="text-gray-500 mt-3 text-sm md:text-base">
           Read through our latest selection of Blog
         </p>
       </div>
 
       {/* blog Grid */}
       <div className="max-w-[1400px] mx-auto px-6 pb-16">
-        <div
-          className={`grid gap-8
-              ${columns === 2 ? "grid-cols-2" : ""}
-              ${columns === 3 ? "grid-cols-3" : ""}
-              ${columns === 4 ? "grid-cols-4" : ""}
-            `}
-        >
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10">
           {products.map((product) => (
-            <div key={product.id} className="group">
-
+            <div key={product.id} className="group cursor-pointer">
               <Link
                 to={`/blog/${product.id}`}
-                className="block relative aspect-[6/4] overflow-hidden rounded-lg bg-gray-100"
+                className="block relative aspect-[16/11] overflow-hidden rounded-xl bg-gray-100"
               >
                 {/* Image wrapper (zoom effect) */}
-                <div className="w-full h-[300px] transition-transform duration-700 group-hover:scale-110">
+                <div className="w-full h-full transition-transform duration-700 group-hover:scale-110">
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-[300px] object-cover"
+                    className="w-full h-full object-cover"
                   />
                 </div>
 
                 {/* 🔥 Accessories Button (fixed position) */}
-                <button className="absolute bottom-3 left-3 bg-white text-black text-xs font-medium px-3 py-1 shadow hover:bg-black hover:text-white transition-all duration-300 z-10">
-                  Accessories
-                </button>
+                <div className="absolute bottom-4 left-4">
+                  <span className="bg-white text-black text-[10px] uppercase tracking-widest font-bold px-3 py-1.5 shadow-sm hover:bg-black hover:text-white transition-all duration-300">
+                    Accessories
+                  </span>
+                </div>
               </Link>
 
               {/* Info */}
-              <div className="mt-5 text-center">
-                <h3 className="text-[20px] text-left text-gray-900">
+              <div className="mt-6">
+                <h3 className="text-lg md:text-xl font-medium leading-tight text-gray-900 group-hover:text-red-600 transition-colors line-clamp-2">
                   {product.name}
                 </h3>
+                
+                <div className="mt-4">
+                  <motion.div
+                    whileHover={{ x: 5 }}
+                    className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-tighter border-b-2 border-black pb-0.5 hover:text-red-600 hover:border-red-600 transition-all"
+                  >
+                    Read More
+                    <MoveUpRight className="w-4 h-4" />
+                  </motion.div>
+                </div>
               </div>
-
-              {/* <Link to="/shop"> */}
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className=" py-2 md:py-2 flex gap-1 border-b border-b-black bg-transparent text-black text-xs font-semibold md:text-sm hover:text:red-600 transition-colors"
-                >
-                  Read More<MoveUpRight className="w-4 h-4 mt-0.5" />
-                </motion.button>
-              {/* </Link> */}
             </div>
           ))}
         </div>
       </div>
-
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { X, Minus, Plus, Trash2, ShoppingBag, Truck } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
@@ -155,12 +156,20 @@ const CartDrawer = () => {
                   Shipping, taxes, and discounts calculated at checkout.
                 </p>
                 <div className=" flex gap-2">
-                  <button className="w-full py-2 border border-black font-bold  hover:bg-black hover:text-white transition-all transform active:scale-95">
+                  <Link 
+                    to="/cart"
+                    onClick={() => setIsCartOpen(false)}
+                    className="w-full py-2 border border-black font-bold flex items-center justify-center hover:bg-black hover:text-white transition-all transform active:scale-95"
+                  >
                     VIEW CART
-                  </button>
-                  <button className="w-full py-2 bg-black text-white font-bold  hover:bg-gray-800 transition-all transform active:scale-95">
+                  </Link>
+                  <Link 
+                    to="/order-success"
+                    onClick={() => setIsCartOpen(false)}
+                    className="w-full py-2 bg-black text-white font-bold flex items-center justify-center hover:bg-gray-800 transition-all transform active:scale-95"
+                  >
                     CHECKOUT
-                  </button>
+                  </Link>
 
                 </div>
               </div>
