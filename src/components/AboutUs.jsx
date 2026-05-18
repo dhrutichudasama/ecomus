@@ -111,12 +111,13 @@ const AboutUs = () => {
       </div>
 
       {/* Team Section Placeholder */}
-      <div className="max-w-[1400px] mx-auto px-6 py-24 text-center">
+      {/* <div className="max-w-[1400px] mx-auto px-6 py-24 text-center">
          <h2 className="text-4xl font-normal text-gray-900 mb-16 uppercase tracking-tight">Meet Our Team</h2>
          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {[1, 2, 3].map((_, i) => (
               <div key={i} className="group">
                  <div className="aspect-[4/5] bg-gray-100 rounded-2xl overflow-hidden mb-6 relative">
+                 <img src="https://images.unsplash.com/photo-1507206130118-b5907f817163?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8d29tZW4lMjB3b3JraW5nfGVufDB8fDB8fHww" alt="" />
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-500" />
                  </div>
                  <h4 className="text-lg font-bold">Member {i+1}</h4>
@@ -124,7 +125,7 @@ const AboutUs = () => {
               </div>
             ))}
          </div>
-      </div>
+      </div> */}
 
       {/* CTA Section */}
       <div className="bg-black py-20 text-center">

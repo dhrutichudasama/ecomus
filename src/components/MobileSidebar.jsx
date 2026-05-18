@@ -15,13 +15,15 @@ import {
     ChevronRight,
     ChevronDown,
     Globe,
-    DollarSign,
-    Facebook,
-    Instagram,
-    Twitter,
-    Linkedin,
-    Youtube
+    DollarSign
 } from "lucide-react";
+import {
+    FaFacebookF,
+    FaInstagram,
+    FaTwitter,
+    FaLinkedinIn,
+    FaYoutube
+} from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/logo.svg";
@@ -310,7 +312,7 @@ const MobileSidebar = () => {
 
                                     {/* Socials */}
                                     <div className="flex items-center justify-center gap-6 pt-2">
-                                        {[Facebook, Instagram, Twitter, Linkedin, Youtube].map((Icon, i) => (
+                                        {[FaFacebookF, FaInstagram, FaTwitter, FaLinkedinIn, FaYoutube].map((Icon, i) => (
                                             <a key={i} href="#" className="text-gray-400 hover:text-black transition-colors">
                                                 <Icon size={20} />
                                             </a>
